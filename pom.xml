@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.sportmanagement.bkk</groupId>
+        <artifactId>sm-parent</artifactId>
+        <version>0.1.4-SNAPSHOT</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <artifactId>sm-notification-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>sm-notification</name>
+    <description>Server application for sending out notifications to registered users and companies</description>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <development.connection.url>scm:git:git@github.com:kdavid76/sm-notification.git</development.connection.url>
+        <image.path>davidkrisztian76/sm-notification</image.path>
+        <sm-commons.version>0.1.2-SNAPSHOT</sm-commons.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- SM PROJECT -->
+            <dependency>
+                <groupId>com.sportmanagement.bkk</groupId>
+                <artifactId>sm-common-models</artifactId>
+                <version>${sm-commons.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.yaml</groupId>
+                        <artifactId>snakeyaml</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sportmanagement.bkk</groupId>
+                <artifactId>sm-common-mongo</artifactId>
+                <version>${sm-commons.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.yaml</groupId>
+                        <artifactId>snakeyaml</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sportmanagement.bkk</groupId>
+                <artifactId>sm-common-kafka</artifactId>
+                <version>${sm-commons.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.yaml</groupId>
+                        <artifactId>snakeyaml</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- TEST -->
+            <dependency>
+                <groupId>com.sportmanagement.bkk</groupId>
+                <artifactId>sm-common-models</artifactId>
+                <version>${sm-commons.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>sm-notification-service</module>
+        <module>sm-notification-data-access</module>
+    </modules>
+
+    <build>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven-source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar</goal>
+                                <goal>test-jar</goal>
+                            </goals>
+                            <configuration>
+                                <attach>true</attach>
+                                <forceCreation>true</forceCreation>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <scm>
+        <developerConnection>${development.connection.url}</developerConnection>
+        <url>https://github.com/kdavid76/sm-notification</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <profiles>
+        <profile>
+            <id>scm-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <configuration>
+                            <tagNameFormat>v@{project.version}</tagNameFormat>
+                            <autoVersionSubmodules>true</autoVersionSubmodules>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>versions-maven-plugin</artifactId>
+                        <configuration>
+                            <generateBackupPoms>true</generateBackupPoms>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

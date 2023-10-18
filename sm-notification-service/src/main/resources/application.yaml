@@ -1,0 +1,21 @@
+server:
+  port: 1903
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "com.bkk.sm.common.kafka"
+            value:
+              delegate:
+                class: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
