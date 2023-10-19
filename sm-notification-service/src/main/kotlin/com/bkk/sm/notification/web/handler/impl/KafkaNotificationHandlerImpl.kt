@@ -4,6 +4,7 @@ import com.bkk.sm.common.kafka.KafkaTopics
 import com.bkk.sm.common.kafka.notification.Notification
 import com.bkk.sm.notification.web.handler.NotificationHandler
 import mu.KotlinLogging
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
@@ -12,7 +13,8 @@ import org.springframework.web.reactive.function.server.awaitBodyOrNull
 import org.springframework.web.reactive.function.server.buildAndAwait
 
 @Component
-class NotificationHandlerImpl(
+@ConditionalOnProperty(prefix = "spring.kafka", name = ["consumer.bootstrap-servers", "producer.bootstrap-servers"])
+class KafkaNotificationHandlerImpl(
         private val notificationTemplate: KafkaTemplate<String, Notification>,
 ) : NotificationHandler {
 
@@ -26,7 +28,7 @@ class NotificationHandlerImpl(
             ServerResponse.ok().buildAndAwait()
         } ?: run {
             log.info { "Missing notification object, message can't be sent to Kafka topic." }
-            ServerResponse.noContent().buildAndAwait()
+            ServerResponse.badRequest().buildAndAwait()
         }
     }
 }
