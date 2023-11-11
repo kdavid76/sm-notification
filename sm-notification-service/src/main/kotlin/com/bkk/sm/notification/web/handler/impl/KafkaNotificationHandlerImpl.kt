@@ -13,9 +13,9 @@ import org.springframework.web.reactive.function.server.awaitBodyOrNull
 import org.springframework.web.reactive.function.server.buildAndAwait
 
 @Component
-@ConditionalOnProperty(prefix = "spring.kafka", name = ["consumer.bootstrap-servers", "producer.bootstrap-servers"])
+@ConditionalOnProperty(prefix = "spring.kafka", name = ["bootstrap-servers"])
 class KafkaNotificationHandlerImpl(
-        private val notificationTemplate: KafkaTemplate<String, Notification>,
+    private val notificationTemplate: KafkaTemplate<String, Notification>,
 ) : NotificationHandler {
 
     val log = KotlinLogging.logger {}

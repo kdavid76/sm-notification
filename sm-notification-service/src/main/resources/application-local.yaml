@@ -1,9 +1,6 @@
 spring:
   kafka:
-    consumer:
-      bootstrap-servers: "localhost:9092"
-    producer:
-      bootstrap-servers: "localhost:9092"
+    bootstrap-servers: "localhost:9092"
 
 management:
   endpoints:
