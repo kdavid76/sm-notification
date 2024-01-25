@@ -19,3 +19,23 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  mail:
+    default-encoding: UTF-8
+    host: ${MAIL_SENDER_HOST}
+    port: ${MAIL_SENDER_PORT}
+    username: ${MAIL_SENDER_USERNAME}
+    password: ${MAIL_SENDER_PASSWORD}
+    protocol: ${MAIL_SENDER_PROTOCOL}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SENDER_AUTH}
+          starttls:
+            enable: ${MAIL_SENDER_STARTTLS_ENABLE}
+sm:
+  notification:
+    enabled: true
+    email:
+      enabled: true
+    sms:
+      enabled: true
